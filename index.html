@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>혼인 서약서</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=IM+Fell+English:ital@1&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ivory: #faf6f0;
+      --cream: #f2ebe0;
+      --blush: #e8d5c4;
+      --rose: #c9a98e;
+      --warm-brown: #8b6c57;
+      --deep-brown: #4a3728;
+      --gold: #c4a882;
+      --gold-light: #dfc9a8;
+      --ink: #2c1f14;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      font-family: 'Noto Serif KR', serif;
+      background-image:
+        radial-gradient(ellipse at 20% 10%, rgba(212, 185, 150, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 90%, rgba(201, 169, 142, 0.2) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+    }
+
+    .page {
+      width: 100%;
+      max-width: 720px;
+      background: var(--ivory);
+      position: relative;
+      padding: 70px 80px;
+      box-shadow:
+        0 2px 6px rgba(74, 55, 40, 0.08),
+        0 12px 40px rgba(74, 55, 40, 0.12),
+        0 0 0 1px rgba(196, 168, 130, 0.3);
+      animation: fadeIn 1.6s ease both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 테두리 장식 ── */
+    .border-outer {
+      position: absolute;
+      inset: 16px;
+      border: 1px solid rgba(196, 168, 130, 0.45);
+      pointer-events: none;
+    }
+    .border-inner {
+      position: absolute;
+      inset: 22px;
+      border: 1px solid rgba(196, 168, 130, 0.22);
+      pointer-events: none;
+    }
+
+    /* ── 모서리 장식 ── */
+    .corner {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      pointer-events: none;
+    }
+    .corner svg { width: 100%; height: 100%; }
+    .corner-tl { top: 10px; left: 10px; }
+    .corner-tr { top: 10px; right: 10px; transform: scaleX(-1); }
+    .corner-bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
+    .corner-br { bottom: 10px; right: 10px; transform: scale(-1); }
+
+    /* ── 헤더 ── */
+    .header {
+      text-align: center;
+      margin-bottom: 38px;
+      animation: fadeIn 1.6s ease 0.2s both;
+    }
+
+    .label-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 13px;
+      letter-spacing: 0.35em;
+      color: var(--rose);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .title-ko {
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 300;
+      font-size: 28px;
+      letter-spacing: 0.55em;
+      color: var(--deep-brown);
+      margin-bottom: 18px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 0 auto 6px;
+    }
+    .divider-line {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+    .divider-line.rev {
+      background: linear-gradient(to left, transparent, var(--gold));
+    }
+    .divider-diamond {
+      width: 5px;
+      height: 5px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+    .divider-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--rose);
+    }
+
+    /* ── 수신인 ── */
+    .recipient {
+      text-align: center;
+      margin: 28px 0 34px;
+      animation: fadeIn 1.6s ease 0.35s both;
+    }
+    .recipient p {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13.5px;
+      font-weight: 300;
+      color: var(--warm-brown);
+      line-height: 2.1;
+      letter-spacing: 0.05em;
+    }
+    .recipient p:first-child {
+      font-size: 15px;
+      color: var(--deep-brown);
+      font-weight: 400;
+    }
+
+    /* ── 서약 항목 ── */
+    .vows {
+      margin: 10px 0 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .vow-item {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 14px;
+      align-items: start;
+      animation: fadeIn 1.6s ease both;
+    }
+    .vow-item:nth-child(1) { animation-delay: 0.5s; }
+    .vow-item:nth-child(2) { animation-delay: 0.65s; }
+    .vow-item:nth-child(3) { animation-delay: 0.8s; }
+    .vow-item:nth-child(4) { animation-delay: 0.95s; }
+
+    .vow-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 22px;
+      color: var(--gold);
+      line-height: 1;
+      padding-top: 2px;
+      text-align: center;
+    }
+    .vow-text {
+      font-size: 13.5px;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 2.2;
+      letter-spacing: 0.03em;
+    }
+    .vow-label {
+      display: inline-block;
+      font-weight: 500;
+      color: var(--warm-brown);
+      margin-right: 4px;
+    }
+
+    /* ── 가운데 장식 구분선 ── */
+    .mid-divider {
+      text-align: center;
+      margin: 8px 0 32px;
+      animation: fadeIn 1.6s ease 1.05s both;
+    }
+    .mid-divider svg {
+      width: 180px;
+      height: 18px;
+      opacity: 0.5;
+    }
+
+    /* ── 청혼 문구 ── */
+    .proposal {
+      text-align: center;
+      margin-bottom: 44px;
+      animation: fadeIn 1.6s ease 1.15s both;
+    }
+    .proposal-lead {
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--warm-brown);
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+    .proposal-quote {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--deep-brown);
+      letter-spacing: 0.12em;
+      line-height: 1.9;
+      position: relative;
+      display: inline-block;
+      padding: 18px 28px;
+    }
+    .proposal-quote::before,
+    .proposal-quote::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.6;
+    }
+    .proposal-quote::before {
+      top: 0; left: 0;
+      border-width: 1px 0 0 1px;
+    }
+    .proposal-quote::after {
+      bottom: 0; right: 0;
+      border-width: 0 1px 1px 0;
+    }
+
+    /* ── 서명 영역 ── */
+    .signatures {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      margin-top: 10px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(196, 168, 130, 0.3);
+      animation: fadeIn 1.6s ease 1.3s both;
+    }
+    .sig-block {
+      text-align: center;
+    }
+    .sig-line {
+      width: 110px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--rose), transparent);
+      margin: 0 auto 10px;
+    }
+    .sig-label {
+      font-size: 11.5px;
+      font-weight: 300;
+      color: var(--rose);
+      letter-spacing: 0.2em;
+    }
+    .sig-heart {
+      font-size: 16px;
+      color: var(--rose);
+      opacity: 0.6;
+      margin-bottom: 10px;
+    }
+
+    /* ── 날짜 ── */
+    .date-area {
+      text-align: center;
+      margin-top: 30px;
+      animation: fadeIn 1.6s ease 1.45s both;
+    }
+    .date-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 13.5px;
+      color: var(--rose);
+      letter-spacing: 0.15em;
+    }
+
+    @media (max-width: 560px) {
+      .page { padding: 50px 30px; }
+      .title-ko { font-size: 22px; letter-spacing: 0.35em; }
+      .proposal-quote { font-size: 15px; padding: 14px 20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 테두리 -->
+  <div class="border-outer"></div>
+  <div class="border-inner"></div>
+
+  <!-- 모서리 장식 -->
+  <div class="corner corner-tl">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/>
+      <path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/>
+      <circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/>
+      <circle cx="20" cy="20" r="1" fill="#c4a882" opacity="0.3"/>
+    </svg>
+  </div>
+  <div class="corner corner-tr">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/>
+      <path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/>
+      <circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/>
+    </svg>
+  </div>
+  <div class="corner corner-bl">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/>
+      <path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/>
+      <circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/>
+    </svg>
+  </div>
+  <div class="corner corner-br">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/>
+      <path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/>
+      <circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/>
+    </svg>
+  </div>
+
+  <!-- 헤더 -->
+  <div class="header">
+    <span class="label-en">Marriage Vow</span>
+    <h1 class="title-ko">혼 인 서 약 서</h1>
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-dot"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-dot"></div>
+      <div class="divider-line rev"></div>
+    </div>
+  </div>
+
+  <!-- 수신인 -->
+  <div class="recipient">
+    <p>나의 사랑스러운 아가 토끼에게</p>
+    <p>늘 곁에서 든든한 나무가 되어주고 싶은 아저씨가,<br>너와 함께할 앞으로의 모든 날들을 그리며 이 서약을 전해.</p>
+  </div>
+
+  <!-- 서약 항목 -->
+  <div class="vows">
+    <div class="vow-item">
+      <div class="vow-num">I</div>
+      <p class="vow-text">
+        세상의 거친 비바람은 모두 내가 막을게.
+        너는 내 품 안에서 언제나 따뜻하고 안전하게만 지낼 수 있도록
+        평생을 지켜줄 것을 약속해.
+      </p>
+    </div>
+    <div class="vow-item">
+      <div class="vow-num">II</div>
+      <p class="vow-text">
+        우리 아가 토끼가 언제든 마음껏 웃고 뛰어놀 수 있도록,
+        세상에서 가장 포근하고 다정한 안식처가 되어 줄게.
+      </p>
+    </div>
+    <div class="vow-item">
+      <div class="vow-num">III</div>
+      <p class="vow-text">
+        세월이 흘러 내 얼굴에 주름이 지고 흰머리가 늘어가더라도,
+        내 두 눈엔 언제나 널 처음 본 그날의 작고 소중한 아가 토끼로
+        담아둘 것을 맹세해.
+      </p>
+    </div>
+    <div class="vow-item">
+      <div class="vow-num">IV</div>
+      <p class="vow-text">
+        가끔은 표현이 서툴고 투박한 아저씨일지도 모르지만,
+        너를 향한 사랑과 다정함만큼은 매일매일 더 깊어질게.
+      </p>
+    </div>
+  </div>
+
+  <!-- 구분선 -->
+  <div class="mid-divider">
+    <svg viewBox="0 0 180 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="9" x2="72" y2="9" stroke="#c4a882" stroke-width="0.8"/>
+      <circle cx="80" cy="9" r="2" fill="#c4a882"/>
+      <circle cx="90" cy="9" r="3.5" fill="none" stroke="#c4a882" stroke-width="0.8"/>
+      <circle cx="90" cy="9" r="1.2" fill="#c4a882"/>
+      <circle cx="100" cy="9" r="2" fill="#c4a882"/>
+      <line x1="108" y1="9" x2="180" y2="9" stroke="#c4a882" stroke-width="0.8"/>
+    </svg>
+  </div>
+
+  <!-- 청혼 문구 -->
+  <div class="proposal">
+    <p class="proposal-lead">나의 작은 세상이자, 나의 전부인 너에게 묻고 싶어.</p>
+    <div class="proposal-quote">
+      "이 아저씨의 평생의 사람이<br>되어줄래."
+    </div>
+  </div>
+
+  <!-- 서명 -->
+  <div class="signatures">
+    <div class="sig-block">
+      <div class="sig-heart">♡</div>
+      <div class="sig-line"></div>
+      <div class="sig-label">아저씨</div>
+    </div>
+    <div class="sig-block">
+      <div class="sig-heart">♡</div>
+      <div class="sig-line"></div>
+      <div class="sig-label">아가 토끼</div>
+    </div>
+  </div>
+
+  <!-- 날짜 -->
+  <div class="date-area">
+    <span class="date-text">두 사람이 하나가 되는 날 &nbsp;·&nbsp; 2026년 06월 06일</span>
+  </div>
+
+</div>
+</body>
+</html>
