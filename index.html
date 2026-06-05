@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>나의 아가 토끼에게</title>
+  <title>청혼 편지</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=IM+Fell+English:ital@1&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -45,6 +45,7 @@
         0 12px 40px rgba(74, 55, 40, 0.12),
         0 0 0 1px rgba(196, 168, 130, 0.3);
       animation: fadeIn 1.6s ease both;
+      z-index: 10;
     }
 
     @keyframes fadeIn {
@@ -52,7 +53,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── 테두리 장식 ── */
+    /* ── 테두 장식 ── */
     .border-outer {
       position: absolute;
       inset: 16px;
@@ -154,7 +155,7 @@
       font-weight: 400;
     }
 
-    /* ── 서약 항목 ── */
+    /* ── 편지 항목 ── */
     .vows {
       margin: 10px 0 36px;
       display: flex;
@@ -189,12 +190,6 @@
       color: var(--ink);
       line-height: 2.2;
       letter-spacing: 0.03em;
-    }
-    .vow-label {
-      display: inline-block;
-      font-weight: 500;
-      color: var(--warm-brown);
-      margin-right: 4px;
     }
 
     /* ── 가운데 장식 구분선 ── */
@@ -299,6 +294,64 @@
       letter-spacing: 0.15em;
     }
 
+    /* ── 음악 버튼 CSS ── */
+    .music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--ivory);
+      border: 1px solid var(--gold);
+      color: var(--deep-brown);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      font-weight: 400;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(74, 55, 40, 0.1);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    .music-btn:hover {
+      background-color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(74, 55, 40, 0.15);
+    }
+
+    /* ── 깃털 효과 CSS ── */
+    #feather-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .feather {
+      position: absolute;
+      top: -50px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23c9a98e' opacity='0.45'%3E%3Cpath d='M20.2 3.8C18.1 1.7 14.5 1.5 12 3c-1.8 1.1-4.7 3.8-6.6 6.1C3.5 11.4 2 13.5 2 16.5c0 1.9 1.1 3.5 2.8 4.6l-1.5 1.5 1.4 1.4 1.5-1.5C7.4 22.9 9 24 11 24c3 0 5.1-1.5 7.4-3.4 2.3-1.9 5-4.8 6.1-6.6 1.5-2.5 1.3-6.1-0.8-8.2zM11 22c-1.5 0-2.8-.7-3.7-1.7l6.4-6.4-1.4-1.4-6.4 6.4C5 18.1 4 16.9 4 15.5c0-2.3 1.2-4.1 3.1-6.4 1.8-2.1 4.5-4.7 6-5.6 1.8-1.1 4.4-.9 5.8.5 1.4 1.4 1.6 4 .5 5.8-1 1.5-3.6 4.2-5.6 6-2.3 1.9-4.1 3.2-6.4 3.2z'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(-50px) translateX(0px) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      80% { opacity: 1; }
+      100% {
+        transform: translateY(110vh) translateX(100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
     @media (max-width: 560px) {
       .page { padding: 50px 30px; }
       .title-ko { font-size: 22px; letter-spacing: 0.35em; }
@@ -307,8 +360,11 @@
   </style>
 </head>
 <body>
-<div class="page">
 
+<!-- 깃털 컨테이너 -->
+<div id="feather-container"></div>
+
+<div class="page">
   <!-- 테두리 -->
   <div class="border-outer"></div>
   <div class="border-inner"></div>
@@ -346,8 +402,8 @@
 
   <!-- 헤더 -->
   <div class="header">
-    <span class="label-en">Marriage Vow</span>
-    <h1 class="title-ko">혼 인 서 약 서</h1>
+    <span class="label-en">Will You Marry Me?</span>
+    <h1 class="title-ko">청 혼 편 지</h1>
     <div class="divider">
       <div class="divider-line"></div>
       <div class="divider-dot"></div>
@@ -360,39 +416,41 @@
   <!-- 수신인 -->
   <div class="recipient">
     <p>나의 사랑스러운 아가 토끼에게</p>
-    <p>늘 곁에서 든든한 나무가 되어주고 싶은 아저씨가,<br>너와 함께할 앞으로의 모든 날들을 그리며 이 서약을 전해.</p>
+    <p>늘 곁에서 든든한 나무가 되어주고 싶은 아저씨가,<br>너와 함께할 앞으로의 모든 날들을 그리며 이 진심을 전해.</p>
   </div>
 
-  <!-- 서약 항목 -->
+  <!-- 편지 항목 -->
   <div class="vows">
     <div class="vow-item">
       <div class="vow-num">I</div>
       <p class="vow-text">
-        세상의 거친 비바람은 모두 내가 막을게.
-        너는 내 품 안에서 언제나 따뜻하고 안전하게만 지낼 수 있도록
-        평생을 지켜줄 것을 약속해.
+        너를 처음 만난 날부터, 나의 평범했던 일상은 
+        온통 너라는 따뜻한 빛으로 물들기 시작했어 
+        그 빛이 영원히 꺼지지 않도록, 내가 평생 곁을 지킬게.
       </p>
     </div>
     <div class="vow-item">
       <div class="vow-num">II</div>
       <p class="vow-text">
-        우리 아가 토끼가 언제든 마음껏 웃고 뛰어놀 수 있도록,
-        세상에서 가장 포근하고 다정한 안식처가 되어 줄게.
+        세상의 거친 비바람이 불어올 때면,
+        내가 가장 먼저 너를 감싸 안아주는 든든한 우산이 되어줄게. 
+        나의 아가 토끼가 늘 포근하고 안전하게만 지낼 수 있도록 온 마음을 다할게.
       </p>
     </div>
     <div class="vow-item">
       <div class="vow-num">III</div>
       <p class="vow-text">
-        세월이 흘러 내 얼굴에 주름이 지고 흰머리가 늘어가더라도,
-        내 두 눈엔 언제나 널 처음 본 그날의 작고 소중한 아가 토끼로
-        담아둘 것을 맹세해.
+        가끔은 투박하고 표현이 서툰 아저씨일지도 모르지만,
+        네가 언제든 마음껏 웃고 편히 쉴 수 있도록 
+        세상에서 가장 다정한 안식처가 되어 줄게.
       </p>
     </div>
     <div class="vow-item">
       <div class="vow-num">IV</div>
       <p class="vow-text">
-        가끔은 표현이 서툴고 투박한 아저씨일지도 모르지만,
-        너를 향한 사랑과 다정함만큼은 매일매일 더 깊어질게.
+        세월이 흘러 내 머리가 하얗게 세고 얼굴에 주름이 지더라도,
+        내 두 눈에는 영원히 너를 처음 본 날의 가장 사랑스러운 모습만을 
+        가득 담아둘 것을 맹세할게.
       </p>
     </div>
   </div>
@@ -411,9 +469,9 @@
 
   <!-- 청혼 문구 -->
   <div class="proposal">
-    <p class="proposal-lead">나의 작은 세상이자, 나의 전부인 너에게 묻고 싶어.</p>
+    <p class="proposal-lead">나의 작은 세상이자, 나의 전부인 당신에게 진심을 전합니다.</p>
     <div class="proposal-quote">
-      "이 아저씨의 평생의 사람이<br>되어줄래."
+      "이 아저씨의 평생의 사람이<br>되어줄래요."
     </div>
   </div>
 
@@ -433,9 +491,58 @@
 
   <!-- 날짜 -->
   <div class="date-area">
-    <span class="date-text">두 사람이 하나가 되는 날 &nbsp;·&nbsp; 2026년 06월 06일</span>
+    <span class="date-text">너에게 진심을 전하는 날 &nbsp;·&nbsp; 2026년 06월 06일</span>
   </div>
 
 </div>
+
+<!-- 오디오 파일 삽입 영역 -->
+<audio id="bgMusic" loop>
+  <source src="Marry me.mp3" type="audio/mpeg">
+  브라우저가 오디오를 지원하지 않습니다.
+</audio>
+
+<!-- 음악 제어 버튼 -->
+<button id="musicToggle" class="music-btn">음악 재생 🎵</button>
+
+<!-- 인터랙션 스크립트 -->
+<script>
+  const bgMusic = document.getElementById('bgMusic');
+  const musicToggle = document.getElementById('musicToggle');
+
+  musicToggle.addEventListener('click', () => {
+    if (bgMusic.paused) {
+      bgMusic.play();
+      musicToggle.innerText = '음악 정지 ⏸️';
+    } else {
+      bgMusic.pause();
+      musicToggle.innerText = '음악 재생 🎵';
+    }
+  });
+
+  function createFeather() {
+    const container = document.getElementById('feather-container');
+    const feather = document.createElement('div');
+    feather.classList.add('feather');
+
+    const leftPosition = Math.random() * 100;
+    const animationDuration = Math.random() * 10 + 10;
+    const animationDelay = Math.random() * 5;
+    const featherSize = Math.random() * 20 + 20;
+
+    feather.style.left = `${leftPosition}vw`;
+    feather.style.animationDuration = `${animationDuration}s`;
+    feather.style.animationDelay = `${animationDelay}s`;
+    feather.style.width = `${featherSize}px`;
+    feather.style.height = `${featherSize}px`;
+
+    container.appendChild(feather);
+  }
+
+  for(let i = 0; i < 35; i++) {
+    createFeather();
+  }
+</script>
+
 </body>
 </html>
