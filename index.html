@@ -18,7 +18,11 @@
       --ink: #2c1f14;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
 
     body {
       background-color: var(--cream);
@@ -28,6 +32,8 @@
       justify-content: center;
       padding: 40px 20px;
       font-family: 'Noto Serif KR', serif;
+      word-break: keep-all;
+      overflow-wrap: break-word;
       background-image:
         radial-gradient(ellipse at 20% 10%, rgba(212, 185, 150, 0.25) 0%, transparent 50%),
         radial-gradient(ellipse at 80% 90%, rgba(201, 169, 142, 0.2) 0%, transparent 50%),
@@ -107,7 +113,6 @@
       letter-spacing: 0.55em;
       color: var(--deep-brown);
       margin-bottom: 18px;
-      word-break: keep-all;
     }
 
     .divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 0 auto 6px; }
@@ -150,7 +155,6 @@
       letter-spacing: 0.06em;
       line-height: 1.85;
       margin-top: 5px;
-      word-break: keep-all; 
     }
     .cover-message p {
       margin-bottom: 22px; 
@@ -190,22 +194,22 @@
     }
 
     .recipient { text-align: center; margin: 20px 0 34px; }
-    .recipient p { font-size: 14px; font-weight: 300; color: var(--warm-brown); line-height: 2.1; letter-spacing: 0.05em; word-break: keep-all;}
+    .recipient p { font-size: 14px; font-weight: 300; color: var(--warm-brown); line-height: 2.1; letter-spacing: 0.05em; }
     .recipient p:first-child { font-size: 16px; color: var(--deep-brown); font-weight: 400; margin-bottom: 8px;}
 
     .vows { display: flex; flex-direction: column; gap: 32px; margin: 10px 0 36px; }
     .vow-item { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: start; }
     .vow-num { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 24px; color: var(--gold); line-height: 1; padding-top: 2px; text-align: center; }
-    .vow-text { font-size: 14px; font-weight: 300; color: var(--ink); line-height: 2.2; letter-spacing: 0.03em; word-break: keep-all; }
+    .vow-text { font-size: 14px; font-weight: 300; color: var(--ink); line-height: 2.2; letter-spacing: 0.03em; }
 
     .mid-divider { text-align: center; margin: 8px 0 32px; }
     .mid-divider svg { width: 180px; height: 18px; opacity: 0.5; }
 
     .proposal { text-align: center; margin-bottom: 44px; }
-    .proposal-lead { font-weight: 300; font-size: 13px; color: var(--warm-brown); letter-spacing: 0.08em; margin-bottom: 16px; word-break: keep-all; }
+    .proposal-lead { font-weight: 300; font-size: 13px; color: var(--warm-brown); letter-spacing: 0.08em; margin-bottom: 16px; }
     .proposal-quote {
       font-size: 20px; font-weight: 400; color: var(--deep-brown); letter-spacing: 0.12em; line-height: 1.9;
-      position: relative; display: inline-block; padding: 22px 32px; word-break: keep-all;
+      position: relative; display: inline-block; padding: 22px 32px;
     }
     .proposal-quote::before, .proposal-quote::after {
       content: ''; position: absolute; width: 20px; height: 20px; border-color: var(--gold); border-style: solid; opacity: 0.6;
@@ -220,7 +224,7 @@
     .sig-heart { font-size: 16px; color: var(--rose); opacity: 0.6; margin-bottom: 10px; }
 
     .date-area { text-align: center; margin-top: 30px; }
-    .date-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--rose); letter-spacing: 0.15em; word-break: keep-all; line-height: 1.5; display: inline-block; }
+    .date-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--rose); letter-spacing: 0.15em; line-height: 1.5; display: inline-block; }
 
     .btn-back {
       display: block; margin: 40px auto 0; background: none; border: none; color: var(--gold); font-family: 'Noto Serif KR', serif; font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; transition: color 0.3s;
@@ -244,53 +248,50 @@
       100% { transform: translateY(110vh) translateX(100px) rotate(360deg); opacity: 0; }
     }
 
-    /* === 모바일 환경 최적화 CSS === */
     @media (max-width: 600px) {
-      body { padding: 20px 10px; }
-      .page { padding: 40px 20px; } /* 모바일에서 좌우 패딩을 줄여 공간 확보 */
+      body { padding: 15px 10px; }
+      .page { padding: 40px 15px; }
       
-      /* 테두리가 글자를 침범하지 않도록 안쪽으로 조정 */
       .border-outer { inset: 8px; }
       .border-inner { inset: 12px; }
       
-      /* 모서리 장식 크기 및 위치 조정 */
       .corner-tl { top: 4px; left: 4px; transform: scale(0.8); }
       .corner-tr { top: 4px; right: 4px; transform: scaleX(-1) scale(0.8); }
       .corner-bl { bottom: 4px; left: 4px; transform: scaleY(-1) scale(0.8); }
       .corner-br { bottom: 4px; right: 4px; transform: scale(-1) scale(0.8); }
 
-      /* 제목 자간 및 폰트 크기 조정 (가로 스크롤 방지) */
       .label-en { font-size: 11px; letter-spacing: 0.15em; margin-bottom: 10px; }
       .title-ko { font-size: 22px; letter-spacing: 0.3em; margin-bottom: 14px; }
       
       .cover-content { gap: 24px; }
       .image-frame { max-width: 240px; border-width: 5px; }
-      .cover-message { font-size: 13.5px; line-height: 1.7; }
+      
+      .cover-message { font-size: 13px; line-height: 1.85; }
+      .cover-message p { margin-bottom: 18px; }
       .btn-open { padding: 10px 28px; font-size: 13px; }
 
-      .recipient p { font-size: 13.5px; line-height: 1.8; }
-      .recipient p:first-child { font-size: 15px; margin-bottom: 12px; }
+      .recipient p { font-size: 13px; line-height: 1.9; }
+      .recipient p:first-child { font-size: 14.5px; margin-bottom: 12px; }
       
       .vows { gap: 24px; margin: 10px 0 26px; }
-      .vow-item { grid-template-columns: 24px 1fr; gap: 10px; } /* 번호와 텍스트 사이 간격 좁힘 */
+      .vow-item { grid-template-columns: 24px 1fr; gap: 10px; }
       .vow-num { font-size: 20px; }
-      .vow-text { font-size: 13.5px; line-height: 1.8; }
+      .vow-text { font-size: 13px; line-height: 1.9; }
 
       .proposal { margin-bottom: 34px; }
       .proposal-lead { font-size: 12px; margin-bottom: 12px; }
       .proposal-quote { font-size: 15px; padding: 16px 20px; letter-spacing: 0.08em; line-height: 1.6; }
-      .proposal-quote::before, .proposal-quote::after { width: 14px; height: 14px; } /* 따옴표 장식 크기 축소 */
+      .proposal-quote::before, .proposal-quote::after { width: 14px; height: 14px; }
 
       .signatures { gap: 20px; }
       .sig-line { width: 80px; }
       .sig-label { font-size: 11px; }
 
       .date-area { margin-top: 24px; }
-      .date-text { font-size: 12px; letter-spacing: 0.05em; }
+      .date-text { font-size: 12px; letter-spacing: 0.05em; line-height: 1.5; display: inline-block; }
       
       .btn-back { margin: 30px auto 0; font-size: 12px; }
       
-      /* 음악 재생 버튼이 모바일 화면을 너무 가리지 않도록 작게 조정 */
       .music-btn { bottom: 15px; right: 15px; padding: 8px 16px; font-size: 12px; }
     }
   </style>
@@ -462,7 +463,6 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // 깃털 애니메이션 생성
   function createFeather() {
     const container = document.getElementById('feather-container');
     const feather = document.createElement('div');
