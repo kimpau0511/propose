@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>청혼 편지</title>
+  <title>나의 아가 토끼에게 - 청혼 편지</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=IM+Fell+English:ital@1&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -34,26 +34,38 @@
         url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
     }
 
-    .page {
+
+    .letter-container {
       width: 100%;
       max-width: 720px;
-      background: var(--ivory);
       position: relative;
+    }
+
+    .page {
+      width: 100%;
+      background: var(--ivory);
       padding: 70px 80px;
       box-shadow:
         0 2px 6px rgba(74, 55, 40, 0.08),
         0 12px 40px rgba(74, 55, 40, 0.12),
         0 0 0 1px rgba(196, 168, 130, 0.3);
-      animation: fadeIn 1.6s ease both;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(30px) scale(0.98);
+      transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 10;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .page.active {
+      position: relative;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
     }
 
-    /* ── 테두 장식 ── */
     .border-outer {
       position: absolute;
       inset: 16px;
@@ -67,7 +79,6 @@
       pointer-events: none;
     }
 
-    /* ── 모서리 장식 ── */
     .corner {
       position: absolute;
       width: 36px;
@@ -80,26 +91,18 @@
     .corner-bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
     .corner-br { bottom: 10px; right: 10px; transform: scale(-1); }
 
-    /* ── 헤더 ── */
-    .header {
-      text-align: center;
-      margin-bottom: 38px;
-      animation: fadeIn 1.6s ease 0.2s both;
-    }
-
+    .header { text-align: center; margin-bottom: 38px; }
     .label-en {
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
-      font-size: 13px;
+      font-size: 14px;
       letter-spacing: 0.35em;
       color: var(--rose);
       text-transform: uppercase;
       margin-bottom: 14px;
       display: block;
     }
-
     .title-ko {
-      font-family: 'Noto Serif KR', serif;
       font-weight: 300;
       font-size: 28px;
       letter-spacing: 0.55em;
@@ -107,405 +110,274 @@
       margin-bottom: 18px;
     }
 
-    .divider {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin: 0 auto 6px;
-    }
-    .divider-line {
-      width: 60px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--gold));
-    }
-    .divider-line.rev {
-      background: linear-gradient(to left, transparent, var(--gold));
-    }
-    .divider-diamond {
-      width: 5px;
-      height: 5px;
-      background: var(--gold);
-      transform: rotate(45deg);
-    }
-    .divider-dot {
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      background: var(--rose);
-    }
+    .divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 0 auto 6px; }
+    .divider-line { width: 60px; height: 1px; background: linear-gradient(to right, transparent, var(--gold)); }
+    .divider-line.rev { background: linear-gradient(to left, transparent, var(--gold)); }
+    .divider-diamond { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); }
 
-    /* ── 수신인 ── */
-    .recipient {
-      text-align: center;
-      margin: 28px 0 34px;
-      animation: fadeIn 1.6s ease 0.35s both;
-    }
-    .recipient p {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 13.5px;
-      font-weight: 300;
-      color: var(--warm-brown);
-      line-height: 2.1;
-      letter-spacing: 0.05em;
-    }
-    .recipient p:first-child {
-      font-size: 15px;
-      color: var(--deep-brown);
-      font-weight: 400;
-    }
-
-    /* ── 편지 항목 ── */
-    .vows {
-      margin: 10px 0 36px;
+    .cover-content {
       display: flex;
       flex-direction: column;
-      gap: 28px;
-    }
-
-    .vow-item {
-      display: grid;
-      grid-template-columns: 34px 1fr;
-      gap: 14px;
-      align-items: start;
-      animation: fadeIn 1.6s ease both;
-    }
-    .vow-item:nth-child(1) { animation-delay: 0.5s; }
-    .vow-item:nth-child(2) { animation-delay: 0.65s; }
-    .vow-item:nth-child(3) { animation-delay: 0.8s; }
-    .vow-item:nth-child(4) { animation-delay: 0.95s; }
-
-    .vow-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 22px;
-      color: var(--gold);
-      line-height: 1;
-      padding-top: 2px;
+      align-items: center;
       text-align: center;
-    }
-    .vow-text {
-      font-size: 13.5px;
-      font-weight: 300;
-      color: var(--ink);
-      line-height: 2.2;
-      letter-spacing: 0.03em;
+      gap: 30px;
     }
 
-    /* ── 가운데 장식 구분선 ── */
-    .mid-divider {
-      text-align: center;
-      margin: 8px 0 32px;
-      animation: fadeIn 1.6s ease 1.05s both;
-    }
-    .mid-divider svg {
-      width: 180px;
-      height: 18px;
-      opacity: 0.5;
-    }
-
-    /* ── 청혼 문구 ── */
-    .proposal {
-      text-align: center;
-      margin-bottom: 44px;
-      animation: fadeIn 1.6s ease 1.15s both;
-    }
-    .proposal-lead {
-      font-family: 'Noto Serif KR', serif;
-      font-weight: 300;
-      font-size: 13px;
-      color: var(--warm-brown);
-      letter-spacing: 0.08em;
-      margin-bottom: 16px;
-    }
-    .proposal-quote {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 18px;
-      font-weight: 400;
-      color: var(--deep-brown);
-      letter-spacing: 0.12em;
-      line-height: 1.9;
-      position: relative;
-      display: inline-block;
-      padding: 18px 28px;
-    }
-    .proposal-quote::before,
-    .proposal-quote::after {
-      content: '';
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      border-color: var(--gold);
-      border-style: solid;
-      opacity: 0.6;
-    }
-    .proposal-quote::before {
-      top: 0; left: 0;
-      border-width: 1px 0 0 1px;
-    }
-    .proposal-quote::after {
-      bottom: 0; right: 0;
-      border-width: 0 1px 1px 0;
-    }
-
-    /* ── 서명 영역 ── */
-    .signatures {
-      display: flex;
-      justify-content: space-around;
-      align-items: flex-end;
-      margin-top: 10px;
-      padding-top: 28px;
-      border-top: 1px solid rgba(196, 168, 130, 0.3);
-      animation: fadeIn 1.6s ease 1.3s both;
-    }
-    .sig-block {
-      text-align: center;
-    }
-    .sig-line {
-      width: 110px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--rose), transparent);
-      margin: 0 auto 10px;
-    }
-    .sig-label {
-      font-size: 11.5px;
-      font-weight: 300;
-      color: var(--rose);
-      letter-spacing: 0.2em;
-    }
-    .sig-heart {
-      font-size: 16px;
-      color: var(--rose);
-      opacity: 0.6;
-      margin-bottom: 10px;
-    }
-
-    /* ── 날짜 ── */
-    .date-area {
-      text-align: center;
-      margin-top: 30px;
-      animation: fadeIn 1.6s ease 1.45s both;
-    }
-    .date-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 13.5px;
-      color: var(--rose);
-      letter-spacing: 0.15em;
-    }
-
-    /* ── 음악 버튼 CSS ── */
-    .music-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: var(--ivory);
-      border: 1px solid var(--gold);
-      color: var(--deep-brown);
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-family: 'Noto Serif KR', serif;
-      font-size: 13px;
-      font-weight: 400;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(74, 55, 40, 0.1);
-      transition: all 0.3s ease;
-      z-index: 1000;
-    }
-    .music-btn:hover {
-      background-color: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(74, 55, 40, 0.15);
-    }
-
-    /* ── 깃털 효과 CSS ── */
-    #feather-container {
-      position: fixed;
-      top: 0;
-      left: 0;
+    .image-frame {
       width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
+      max-width: 320px;
+      aspect-ratio: 3 / 4;
+      border: 8px solid #fff;
+      box-shadow: 0 8px 24px rgba(74, 55, 40, 0.15);
+      position: relative;
+      background-color: var(--blush);
       overflow: hidden;
     }
-    .feather {
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 3s ease;
+    }
+    .image-frame:hover img {
+      transform: scale(1.05);
+    }
+
+    .cover-message {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--warm-brown);
+      letter-spacing: 0.05em;
+      line-height: 1.8;
+      margin-top: 10px;
+    }
+
+    .btn-open {
+      margin-top: 10px;
+      background: none;
+      border: 1px solid var(--gold);
+      color: var(--deep-brown);
+      padding: 12px 36px;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-open::before {
+      content: '';
       position: absolute;
-      top: -50px;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--gold-light);
+      opacity: 0.2;
+      transition: left 0.4s ease;
+    }
+    .btn-open:hover::before { left: 0; }
+    .btn-open:hover {
+      background-color: var(--gold);
+      color: #fff;
+      border-color: var(--gold);
+    }
+
+    .recipient { text-align: center; margin: 20px 0 34px; }
+    .recipient p { font-size: 14px; font-weight: 300; color: var(--warm-brown); line-height: 2.1; letter-spacing: 0.05em; }
+    .recipient p:first-child { font-size: 16px; color: var(--deep-brown); font-weight: 400; margin-bottom: 8px;}
+
+    .vows { display: flex; flex-direction: column; gap: 32px; margin: 10px 0 36px; }
+    .vow-item { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: start; }
+    .vow-num { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 24px; color: var(--gold); line-height: 1; padding-top: 2px; text-align: center; }
+    .vow-text { font-size: 14px; font-weight: 300; color: var(--ink); line-height: 2.2; letter-spacing: 0.03em; word-break: keep-all; }
+
+    .mid-divider { text-align: center; margin: 8px 0 32px; }
+    .mid-divider svg { width: 180px; height: 18px; opacity: 0.5; }
+
+    .proposal { text-align: center; margin-bottom: 44px; }
+    .proposal-lead { font-weight: 300; font-size: 13px; color: var(--warm-brown); letter-spacing: 0.08em; margin-bottom: 16px; }
+    .proposal-quote {
+      font-size: 20px; font-weight: 400; color: var(--deep-brown); letter-spacing: 0.12em; line-height: 1.9;
+      position: relative; display: inline-block; padding: 22px 32px;
+    }
+    .proposal-quote::before, .proposal-quote::after {
+      content: ''; position: absolute; width: 20px; height: 20px; border-color: var(--gold); border-style: solid; opacity: 0.6;
+    }
+    .proposal-quote::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
+    .proposal-quote::after { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+    .signatures { display: flex; justify-content: space-around; align-items: flex-end; margin-top: 10px; padding-top: 28px; border-top: 1px solid rgba(196, 168, 130, 0.3); }
+    .sig-block { text-align: center; }
+    .sig-line { width: 110px; height: 1px; background: linear-gradient(to right, transparent, var(--rose), transparent); margin: 0 auto 10px; }
+    .sig-label { font-size: 12px; font-weight: 300; color: var(--rose); letter-spacing: 0.2em; }
+    .sig-heart { font-size: 16px; color: var(--rose); opacity: 0.6; margin-bottom: 10px; }
+
+    .date-area { text-align: center; margin-top: 30px; }
+    .date-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--rose); letter-spacing: 0.15em; }
+
+    .btn-back {
+      display: block; margin: 40px auto 0; background: none; border: none; color: var(--gold); font-family: 'Noto Serif KR', serif; font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; transition: color 0.3s;
+    }
+    .btn-back:hover { color: var(--deep-brown); }
+
+    .music-btn {
+      position: fixed; bottom: 20px; right: 20px; background-color: var(--ivory); border: 1px solid var(--gold); color: var(--deep-brown); padding: 10px 20px; border-radius: 30px; font-family: 'Noto Serif KR', serif; font-size: 13px; font-weight: 400; cursor: pointer; box-shadow: 0 4px 12px rgba(74, 55, 40, 0.1); transition: all 0.3s ease; z-index: 1000;
+    }
+    .music-btn:hover { background-color: #fff; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(74, 55, 40, 0.15); }
+
+    #feather-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+    .feather {
+      position: absolute; top: -50px; background-size: contain; background-repeat: no-repeat; animation-name: fall; animation-timing-function: linear; animation-iteration-count: infinite;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23c9a98e' opacity='0.45'%3E%3Cpath d='M20.2 3.8C18.1 1.7 14.5 1.5 12 3c-1.8 1.1-4.7 3.8-6.6 6.1C3.5 11.4 2 13.5 2 16.5c0 1.9 1.1 3.5 2.8 4.6l-1.5 1.5 1.4 1.4 1.5-1.5C7.4 22.9 9 24 11 24c3 0 5.1-1.5 7.4-3.4 2.3-1.9 5-4.8 6.1-6.6 1.5-2.5 1.3-6.1-0.8-8.2zM11 22c-1.5 0-2.8-.7-3.7-1.7l6.4-6.4-1.4-1.4-6.4 6.4C5 18.1 4 16.9 4 15.5c0-2.3 1.2-4.1 3.1-6.4 1.8-2.1 4.5-4.7 6-5.6 1.8-1.1 4.4-.9 5.8.5 1.4 1.4 1.6 4 .5 5.8-1 1.5-3.6 4.2-5.6 6-2.3 1.9-4.1 3.2-6.4 3.2z'/%3E%3C/svg%3E");
-      background-size: contain;
-      background-repeat: no-repeat;
-      animation-name: fall;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
     }
     @keyframes fall {
-      0% {
-        transform: translateY(-50px) translateX(0px) rotate(0deg);
-        opacity: 0;
-      }
+      0% { transform: translateY(-50px) translateX(0px) rotate(0deg); opacity: 0; }
       10% { opacity: 1; }
       80% { opacity: 1; }
-      100% {
-        transform: translateY(110vh) translateX(100px) rotate(360deg);
-        opacity: 0;
-      }
+      100% { transform: translateY(110vh) translateX(100px) rotate(360deg); opacity: 0; }
     }
 
     @media (max-width: 560px) {
-      .page { padding: 50px 30px; }
+      .page { padding: 50px 24px; }
       .title-ko { font-size: 22px; letter-spacing: 0.35em; }
-      .proposal-quote { font-size: 15px; padding: 14px 20px; }
+      .proposal-quote { font-size: 16px; padding: 18px 20px; }
+      .image-frame { max-width: 260px; border-width: 6px; }
     }
   </style>
 </head>
 <body>
 
-<!-- 깃털 컨테이너 -->
 <div id="feather-container"></div>
 
-<div class="page">
-  <!-- 테두리 -->
-  <div class="border-outer"></div>
-  <div class="border-inner"></div>
+<div class="letter-container">
 
-  <!-- 모서리 장식 -->
-  <div class="corner corner-tl">
-    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/>
-      <path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/>
-      <circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/>
-      <circle cx="20" cy="20" r="1" fill="#c4a882" opacity="0.3"/>
-    </svg>
-  </div>
-  <div class="corner corner-tr">
-    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/>
-      <path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/>
-      <circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/>
-    </svg>
-  </div>
-  <div class="corner corner-bl">
-    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/>
-      <path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/>
-      <circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/>
-    </svg>
-  </div>
-  <div class="corner corner-br">
-    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/>
-      <path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/>
-      <circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/>
-    </svg>
-  </div>
+  <div class="page active" id="page-cover">
+    <div class="border-outer"></div>
+    <div class="border-inner"></div>
+    <div class="corner corner-tl"><svg viewBox="0 0 40 40"><path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/><path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/><circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/><circle cx="20" cy="20" r="1" fill="#c4a882" opacity="0.3"/></svg></div>
+    <div class="corner corner-tr"><svg viewBox="0 0 40 40"><path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/><path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/><circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/></svg></div>
+    <div class="corner corner-bl"><svg viewBox="0 0 40 40"><path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/><path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/><circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/></svg></div>
+    <div class="corner corner-br"><svg viewBox="0 0 40 40"><path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/><path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/><circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/></svg></div>
 
-  <!-- 헤더 -->
-  <div class="header">
-    <span class="label-en">Will You Marry Me?</span>
-    <h1 class="title-ko">청 혼 편 지</h1>
-    <div class="divider">
-      <div class="divider-line"></div>
-      <div class="divider-dot"></div>
-      <div class="divider-diamond"></div>
-      <div class="divider-dot"></div>
-      <div class="divider-line rev"></div>
+    <div class="cover-content">
+      <div class="header" style="margin-bottom: 0;">
+        <span class="label-en">To My Only Destiny</span>
+        <h1 class="title-ko">나의 사랑에게</h1>
+      </div>
+      <div class="image-frame">
+        <img src="photo.jpg" alt="">
+      </div>
+
+      <div class="cover-message">
+        <p>네 미소 아래에 가장 찬란한 하루가 되길.</p>
+        <p>준비가 되었다면 편지를 열어줘요.</p>
+      </div>
+
+      <button class="btn-open" onclick="goToLetter()">편지 열기</button>
     </div>
   </div>
 
-  <!-- 수신인 -->
-  <div class="recipient">
-    <p>나의 사랑스러운 아가 토끼에게</p>
-    <p>늘 곁에서 든든한 나무가 되어주고 싶은 아저씨가,<br>너와 함께할 앞으로의 모든 날들을 그리며 이 진심을 전해.</p>
-  </div>
 
-  <!-- 편지 항목 -->
-  <div class="vows">
-    <div class="vow-item">
-      <div class="vow-num">I</div>
-      <p class="vow-text">
-        너를 처음 만난 날부터, 나의 평범했던 일상은 
-        온통 너라는 따뜻한 빛으로 물들기 시작했어 
-        그 빛이 영원히 꺼지지 않도록, 내가 평생 곁을 지킬게.
-      </p>
-    </div>
-    <div class="vow-item">
-      <div class="vow-num">II</div>
-      <p class="vow-text">
-        세상의 거친 비바람이 불어올 때면,
-        내가 가장 먼저 너를 감싸 안아주는 든든한 우산이 되어줄게. 
-        나의 아가 토끼가 늘 포근하고 안전하게만 지낼 수 있도록 온 마음을 다할게.
-      </p>
-    </div>
-    <div class="vow-item">
-      <div class="vow-num">III</div>
-      <p class="vow-text">
-        가끔은 투박하고 표현이 서툰 아저씨일지도 모르지만,
-        네가 언제든 마음껏 웃고 편히 쉴 수 있도록 
-        세상에서 가장 다정한 안식처가 되어 줄게.
-      </p>
-    </div>
-    <div class="vow-item">
-      <div class="vow-num">IV</div>
-      <p class="vow-text">
-        세월이 흘러 내 머리가 하얗게 세고 얼굴에 주름이 지더라도,
-        내 두 눈에는 영원히 너를 처음 본 날의 가장 사랑스러운 모습만을 
-        가득 담아둘 것을 맹세할게.
-      </p>
-    </div>
-  </div>
+  <div class="page" id="page-content">
 
-  <!-- 구분선 -->
-  <div class="mid-divider">
-    <svg viewBox="0 0 180 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line x1="0" y1="9" x2="72" y2="9" stroke="#c4a882" stroke-width="0.8"/>
-      <circle cx="80" cy="9" r="2" fill="#c4a882"/>
-      <circle cx="90" cy="9" r="3.5" fill="none" stroke="#c4a882" stroke-width="0.8"/>
-      <circle cx="90" cy="9" r="1.2" fill="#c4a882"/>
-      <circle cx="100" cy="9" r="2" fill="#c4a882"/>
-      <line x1="108" y1="9" x2="180" y2="9" stroke="#c4a882" stroke-width="0.8"/>
-    </svg>
-  </div>
+    <div class="border-outer"></div>
+    <div class="border-inner"></div>
+    <div class="corner corner-tl"><svg viewBox="0 0 40 40"><path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/><path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/><circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/><circle cx="20" cy="20" r="1" fill="#c4a882" opacity="0.3"/></svg></div>
+    <div class="corner corner-tr"><svg viewBox="0 0 40 40"><path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/><path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/><circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/></svg></div>
+    <div class="corner corner-bl"><svg viewBox="0 0 40 40"><path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/><path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/><circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/></svg></div>
+    <div class="corner corner-br"><svg viewBox="0 0 40 40"><path d="M2 38 L2 6 Q2 2 6 2 L38 2" stroke="#c4a882" stroke-width="1" fill="none"/><path d="M2 22 L2 2 L22 2" stroke="#c4a882" stroke-width="0.5" fill="none" opacity="0.4"/><circle cx="2" cy="2" r="2" fill="#c4a882" opacity="0.7"/></svg></div>
 
-  <!-- 청혼 문구 -->
-  <div class="proposal">
-    <p class="proposal-lead">나의 작은 세상이자, 나의 전부인 당신에게 진심을 전합니다.</p>
-    <div class="proposal-quote">
-      "이 아저씨의 평생의 사람이<br>되어줄래요."
+    <div class="header">
+      <span class="label-en">Will You Marry Me?</span>
+      <h1 class="title-ko" style="margin-bottom: 12px;">청 혼 편 지</h1>
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-diamond"></div>
+        <div class="divider-line rev"></div>
+      </div>
     </div>
-  </div>
 
-  <!-- 서명 -->
-  <div class="signatures">
-    <div class="sig-block">
-      <div class="sig-heart">♡</div>
-      <div class="sig-line"></div>
-      <div class="sig-label">아저씨</div>
-    </div>
-    <div class="sig-block">
-      <div class="sig-heart">♡</div>
-      <div class="sig-line"></div>
-      <div class="sig-label">아가 토끼</div>
-    </div>
-  </div>
 
-  <!-- 날짜 -->
-  <div class="date-area">
-    <span class="date-text">너에게 진심을 전하는 날 &nbsp;·&nbsp; 2026년 06월 06일</span>
+    <div class="recipient">
+      <p>세상에서 가장 사랑스러운 나의 아가 토끼에게</p>
+      <p>늘 네 곁에서 흔들림 없는 나무가 되어주고 싶은 아저씨가,<br>너와 함께 걷고 싶은 앞으로의 모든 날들을 그리며 이 진심을 전해.</p>
+    </div>
+
+    <!-- 다듬어진 편지 본문 -->
+    <div class="vows">
+      <div class="vow-item">
+        <div class="vow-num">I</div>
+        <p class="vow-text">
+          너를 처음 마주했던 그 순간, 나의 무채색이었던 세상은 온통 따스한 봄빛으로 물들기 시작했어. 네가 내게 선물해 준 그 눈부신 빛을 이제는 내가 평생토록 지켜줄게.
+        </p>
+      </div>
+      <div class="vow-item">
+        <div class="vow-num">II</div>
+        <p class="vow-text">
+          살다 보면 때로는 비가 내리고 거친 바람이 부는 날도 찾아오겠지. 그럴 때면 내가 가장 먼저 널 감싸 안는 튼튼한 우산이 되어줄게. 내 품 안에서 네가 언제나 안전하고 평안할 수 있도록 나의 온 마음을 다할게.
+        </p>
+      </div>
+      <div class="vow-item">
+        <div class="vow-num">III</div>
+        <p class="vow-text">
+          가끔은 표현도 서툴고 투박한 아저씨일지 모르지만, 널 사랑하는 마음만큼은 세상 누구보다도 깊고 진하다고 자부해. 네가 언제든 편히 기대어 마음껏 웃고 쉴 수 있는 가장 다정한 안식처가 될 것을 약속할게.
+        </p>
+      </div>
+      <div class="vow-item">
+        <div class="vow-num">IV</div>
+        <p class="vow-text">
+          먼 훗날, 시간이 흘러 내 머리가 하얗게 세고 얼굴에 깊은 주름이 지더라도, 내 두 눈에는 영원히 널 처음 본 날의 그 눈부시고 사랑스러운 모습만을 가장 선명하게 담아둘게.
+        </p>
+      </div>
+    </div>
+
+    <div class="mid-divider">
+      <svg viewBox="0 0 180 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="9" x2="72" y2="9" stroke="#c4a882" stroke-width="0.8"/>
+        <circle cx="80" cy="9" r="2" fill="#c4a882"/>
+        <circle cx="90" cy="9" r="3.5" fill="none" stroke="#c4a882" stroke-width="0.8"/>
+        <circle cx="90" cy="9" r="1.2" fill="#c4a882"/>
+        <circle cx="100" cy="9" r="2" fill="#c4a882"/>
+        <line x1="108" y1="9" x2="180" y2="9" stroke="#c4a882" stroke-width="0.8"/>
+      </svg>
+    </div>
+
+
+    <div class="proposal">
+      <p class="proposal-lead">나의 작은 우주, 나의 전부인 당신에게 묻습니다.</p>
+      <div class="proposal-quote">
+        "이 아저씨의 평생의 짝꿍이 되어줄래요?"
+      </div>
+    </div>
+
+    <div class="signatures">
+      <div class="sig-block">
+        <div class="sig-heart">♡</div>
+        <div class="sig-line"></div>
+        <div class="sig-label">아저씨</div>
+      </div>
+      <div class="sig-block">
+        <div class="sig-heart">♡</div>
+        <div class="sig-line"></div>
+        <div class="sig-label">아가 토끼</div>
+      </div>
+    </div>
+
+
+    <div class="date-area">
+      <span class="date-text">우리의 새로운 시작을 약속하는 날 &nbsp;·&nbsp; 2026년 06월 08일</span>
+    </div>
+
+    <button class="btn-back" onclick="goToCover()">다시 표지로 돌아가기</button>
   </div>
 
 </div>
 
-<!-- 오디오 파일 삽입 영역 -->
 <audio id="bgMusic" loop>
-  <source src="bgm.mp3" type="audio/mpeg">
-  브라우저가 오디오를 지원하지 않습니다.
+  <source src="Marry me.mp3" type="audio/mpeg">
 </audio>
-
-<!-- 음악 제어 버튼 -->
 <button id="musicToggle" class="music-btn">음악 재생 🎵</button>
 
-<!-- 인터랙션 스크립트 -->
 <script>
   const bgMusic = document.getElementById('bgMusic');
   const musicToggle = document.getElementById('musicToggle');
@@ -520,6 +392,23 @@
     }
   });
 
+  const pageCover = document.getElementById('page-cover');
+  const pageContent = document.getElementById('page-content');
+
+  function goToLetter() {
+    pageCover.classList.remove('active');
+    pageContent.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  }
+
+  function goToCover() {
+    pageContent.classList.remove('active');
+    pageCover.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // 깃털 애니메이션 생성
   function createFeather() {
     const container = document.getElementById('feather-container');
     const feather = document.createElement('div');
@@ -539,7 +428,7 @@
     container.appendChild(feather);
   }
 
-  for(let i = 0; i < 35; i++) {
+  for(let i = 0; i < 30; i++) {
     createFeather();
   }
 </script>
