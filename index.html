@@ -107,6 +107,7 @@
       letter-spacing: 0.55em;
       color: var(--deep-brown);
       margin-bottom: 18px;
+      word-break: keep-all;
     }
 
     .divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 0 auto 6px; }
@@ -142,7 +143,6 @@
       transform: scale(1.05);
     }
 
-    /* 표지 문구 스타일 수정 */
     .cover-message {
       font-size: 14.5px;
       font-weight: 300;
@@ -150,10 +150,10 @@
       letter-spacing: 0.06em;
       line-height: 1.85;
       margin-top: 5px;
-      word-break: keep-all; /* 단어 단위로 줄바꿈 되도록 설정 */
+      word-break: keep-all; 
     }
     .cover-message p {
-      margin-bottom: 22px; /* 문단 사이 간격 */
+      margin-bottom: 22px; 
     }
     .cover-message p:last-child {
       margin-bottom: 0;
@@ -190,7 +190,7 @@
     }
 
     .recipient { text-align: center; margin: 20px 0 34px; }
-    .recipient p { font-size: 14px; font-weight: 300; color: var(--warm-brown); line-height: 2.1; letter-spacing: 0.05em; }
+    .recipient p { font-size: 14px; font-weight: 300; color: var(--warm-brown); line-height: 2.1; letter-spacing: 0.05em; word-break: keep-all;}
     .recipient p:first-child { font-size: 16px; color: var(--deep-brown); font-weight: 400; margin-bottom: 8px;}
 
     .vows { display: flex; flex-direction: column; gap: 32px; margin: 10px 0 36px; }
@@ -202,10 +202,10 @@
     .mid-divider svg { width: 180px; height: 18px; opacity: 0.5; }
 
     .proposal { text-align: center; margin-bottom: 44px; }
-    .proposal-lead { font-weight: 300; font-size: 13px; color: var(--warm-brown); letter-spacing: 0.08em; margin-bottom: 16px; }
+    .proposal-lead { font-weight: 300; font-size: 13px; color: var(--warm-brown); letter-spacing: 0.08em; margin-bottom: 16px; word-break: keep-all; }
     .proposal-quote {
       font-size: 20px; font-weight: 400; color: var(--deep-brown); letter-spacing: 0.12em; line-height: 1.9;
-      position: relative; display: inline-block; padding: 22px 32px;
+      position: relative; display: inline-block; padding: 22px 32px; word-break: keep-all;
     }
     .proposal-quote::before, .proposal-quote::after {
       content: ''; position: absolute; width: 20px; height: 20px; border-color: var(--gold); border-style: solid; opacity: 0.6;
@@ -220,7 +220,7 @@
     .sig-heart { font-size: 16px; color: var(--rose); opacity: 0.6; margin-bottom: 10px; }
 
     .date-area { text-align: center; margin-top: 30px; }
-    .date-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--rose); letter-spacing: 0.15em; }
+    .date-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--rose); letter-spacing: 0.15em; word-break: keep-all; line-height: 1.5; display: inline-block; }
 
     .btn-back {
       display: block; margin: 40px auto 0; background: none; border: none; color: var(--gold); font-family: 'Noto Serif KR', serif; font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; transition: color 0.3s;
@@ -244,11 +244,54 @@
       100% { transform: translateY(110vh) translateX(100px) rotate(360deg); opacity: 0; }
     }
 
-    @media (max-width: 560px) {
-      .page { padding: 50px 24px; }
-      .title-ko { font-size: 22px; letter-spacing: 0.35em; }
-      .proposal-quote { font-size: 16px; padding: 18px 20px; }
-      .image-frame { max-width: 260px; border-width: 6px; }
+    /* === 모바일 환경 최적화 CSS === */
+    @media (max-width: 600px) {
+      body { padding: 20px 10px; }
+      .page { padding: 40px 20px; } /* 모바일에서 좌우 패딩을 줄여 공간 확보 */
+      
+      /* 테두리가 글자를 침범하지 않도록 안쪽으로 조정 */
+      .border-outer { inset: 8px; }
+      .border-inner { inset: 12px; }
+      
+      /* 모서리 장식 크기 및 위치 조정 */
+      .corner-tl { top: 4px; left: 4px; transform: scale(0.8); }
+      .corner-tr { top: 4px; right: 4px; transform: scaleX(-1) scale(0.8); }
+      .corner-bl { bottom: 4px; left: 4px; transform: scaleY(-1) scale(0.8); }
+      .corner-br { bottom: 4px; right: 4px; transform: scale(-1) scale(0.8); }
+
+      /* 제목 자간 및 폰트 크기 조정 (가로 스크롤 방지) */
+      .label-en { font-size: 11px; letter-spacing: 0.15em; margin-bottom: 10px; }
+      .title-ko { font-size: 22px; letter-spacing: 0.3em; margin-bottom: 14px; }
+      
+      .cover-content { gap: 24px; }
+      .image-frame { max-width: 240px; border-width: 5px; }
+      .cover-message { font-size: 13.5px; line-height: 1.7; }
+      .btn-open { padding: 10px 28px; font-size: 13px; }
+
+      .recipient p { font-size: 13.5px; line-height: 1.8; }
+      .recipient p:first-child { font-size: 15px; margin-bottom: 12px; }
+      
+      .vows { gap: 24px; margin: 10px 0 26px; }
+      .vow-item { grid-template-columns: 24px 1fr; gap: 10px; } /* 번호와 텍스트 사이 간격 좁힘 */
+      .vow-num { font-size: 20px; }
+      .vow-text { font-size: 13.5px; line-height: 1.8; }
+
+      .proposal { margin-bottom: 34px; }
+      .proposal-lead { font-size: 12px; margin-bottom: 12px; }
+      .proposal-quote { font-size: 15px; padding: 16px 20px; letter-spacing: 0.08em; line-height: 1.6; }
+      .proposal-quote::before, .proposal-quote::after { width: 14px; height: 14px; } /* 따옴표 장식 크기 축소 */
+
+      .signatures { gap: 20px; }
+      .sig-line { width: 80px; }
+      .sig-label { font-size: 11px; }
+
+      .date-area { margin-top: 24px; }
+      .date-text { font-size: 12px; letter-spacing: 0.05em; }
+      
+      .btn-back { margin: 30px auto 0; font-size: 12px; }
+      
+      /* 음악 재생 버튼이 모바일 화면을 너무 가리지 않도록 작게 조정 */
+      .music-btn { bottom: 15px; right: 15px; padding: 8px 16px; font-size: 12px; }
     }
   </style>
 </head>
